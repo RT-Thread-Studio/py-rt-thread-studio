@@ -2,7 +2,7 @@
 import setuptools
 from setuptools import setup
 setup(
-    name='py-rt-thread-studio',
+    name='rt-thread-studio',
     version='1.0',
     description='Tools for RT-Thread Studio',
     author='RealThread',
