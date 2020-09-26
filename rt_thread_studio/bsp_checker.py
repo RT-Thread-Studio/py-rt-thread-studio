@@ -31,7 +31,12 @@ class BspChecker(object):
         for file in files:
             if file != "none":
                 file_path = self.bsp_path.joinpath(file)
-                if not file_path.exists():
+                if str(file_path).endswith("*"):
+                    if file_path.parent.exists():
+                        pass
+                    else:
+                        return False
+                elif not file_path.exists():
                     print("ERROR @ : " + str(self.current_location))
                     print("file '{0}' is not found in package".format(file))
                     return False
@@ -41,6 +46,6 @@ class BspChecker(object):
 
 
 if __name__ == "__main__":
-    bsp_path = ".."
+    bsp_path = "C:\\RT-ThreadStudio111full\\repo\\Local\\Board_Support_Packages\\RealThread\\STM32H750-ART-Pi\\0.3.0"
     bsp_checker = BspChecker(bsp_path)
     bsp_checker.check()
