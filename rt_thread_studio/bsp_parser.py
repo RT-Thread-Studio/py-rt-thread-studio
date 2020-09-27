@@ -2,6 +2,7 @@ import json
 import logging
 import os
 from pathlib import Path
+from string import Template
 
 import yaml
 
@@ -67,3 +68,72 @@ class BspParser(object):
         except Exception as e:
             logging.error("BSP parser error:{0}".format(e))
             return []
+
+    def get_external_package_list(self):
+        external_packages_dict_list = []
+        package_relative_path_list = []
+        for project in self.all_projects:
+            external_files = project["external_files"]
+            for external_file in external_files:
+                package_type = external_file["package_type"]
+                package_name = external_file["package_name"]
+                package_vendor = external_file["package_vendor"]
+                package_version = external_file["package_version"]
+                package_relative_path = Path(package_type).joinpath(package_vendor, package_name, package_version)
+                if package_relative_path not in package_relative_path_list:
+                    package_relative_path_list.append(package_relative_path)
+                    external_packages_dict_list.append(dict(
+                        {'package_type': package_type,
+                         'package_name': package_name,
+                         'package_vendor': package_vendor,
+                         'package_version': package_version,
+                         'package_relative_path': str(package_relative_path.as_posix())}))
+                else:
+                    continue
+        return external_packages_dict_list
+
+    def generate_bsp_project_create_json_input(self, output_project_path):
+        bsp_test_dict = dict()
+        para_json_tmp_str = """{
+	"parameter": {
+		"bsp_path": "$bsp_path",
+		"project_name": "$project_name",
+		"output_project_path": "$output_project_path",
+		"from_example": "$from_example",
+		"example_name": "$example_name",
+		"project_type": "$project_type",
+		"action": "create_project"
+	}
+}"""
+        for project in self.template_projects:
+            project_name = "template_" + project["project_type"].replace("|@", "_").replace("-","_").replace(".","_")
+            para_json_tmp = Template(para_json_tmp_str)
+            wstrs = para_json_tmp.substitute(bsp_path=str(Path(self.bsp_path).as_posix()),
+                                             project_type=str(project['project_type']),
+                                             project_name=str(project_name),
+                                             output_project_path=str(output_project_path),
+                                             from_example= False,
+                                             example_name= "")
+            print(wstrs)
+            dict_lit = json.loads(wstrs)
+            bsp_test_dict[project_name] = dict_lit
+        for project in self.example_projects:
+            project_name = "example_" +project["project_name"]+"_"+ project["project_type"].replace("|@", "_").replace("-","_").replace(".","_")
+            para_json_tmp = Template(para_json_tmp_str)
+            wstrs = para_json_tmp.substitute(bsp_path=str(Path(self.bsp_path).as_posix()),
+                                             project_type=str(project['project_type']),
+                                             project_name=str(project_name),
+                                             output_project_path=str(output_project_path),
+                                             from_example= True,
+                                             example_name= project["project_name"])
+            dict_lit = json.loads(wstrs)
+            bsp_test_dict[project_name] = dict_lit
+        return bsp_test_dict
+
+
+if __name__ == "__main__":
+    # bsp_path = "C:\\Users\\yaxing.chen\\Documents\\sdk\\sdk-bsp\\sdk-bsp-stm32l475-atk-pandora"
+    bsp_path = "C:\\Users\\yaxing.chen\\Documents\\sdk\\sdk-bsp\\sdk-bsp-stm32h750-realthread-artpi"
+    bsp_parser = BspParser(bsp_path)
+    print(bsp_parser.get_external_package_list())
+    print(bsp_parser.generate_bsp_project_create_json_input("."))

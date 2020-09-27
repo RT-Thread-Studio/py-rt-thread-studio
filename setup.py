@@ -3,7 +3,7 @@ import setuptools
 from setuptools import setup
 setup(
     name='rt-thread-studio',
-    version='1.2',
+    version='1.3',
     description='Tools for RT-Thread Studio',
     author='RealThread',
     author_email='chenyaxing@rt-thread.com',
