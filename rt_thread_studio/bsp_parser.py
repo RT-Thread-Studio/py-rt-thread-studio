@@ -106,26 +106,28 @@ class BspParser(object):
 	}
 }"""
         for project in self.template_projects:
-            project_name = "template_" + project["project_type"].replace("|@", "_").replace("-","_").replace(".","_")
+            project_name = "template_" + project["project_type"].replace("|@", "_").replace("-", "_").replace(".", "_")
             para_json_tmp = Template(para_json_tmp_str)
             wstrs = para_json_tmp.substitute(bsp_path=str(Path(self.bsp_path).as_posix()),
                                              project_type=str(project['project_type']),
                                              project_name=str(project_name),
                                              output_project_path=str(output_project_path),
-                                             from_example= False,
-                                             example_name= "")
-            print(wstrs)
+                                             from_example=False,
+                                             example_name="")
             dict_lit = json.loads(wstrs)
             bsp_test_dict[project_name] = dict_lit
         for project in self.example_projects:
-            project_name = "example_" +project["project_name"]+"_"+ project["project_type"].replace("|@", "_").replace("-","_").replace(".","_")
+            project_name = "example_" \
+                           + project["project_name"] \
+                           + "_" \
+                           + project["project_type"].replace("|@", "_").replace("-", "_").replace(".", "_")
             para_json_tmp = Template(para_json_tmp_str)
             wstrs = para_json_tmp.substitute(bsp_path=str(Path(self.bsp_path).as_posix()),
                                              project_type=str(project['project_type']),
                                              project_name=str(project_name),
                                              output_project_path=str(output_project_path),
-                                             from_example= True,
-                                             example_name= project["project_name"])
+                                             from_example=True,
+                                             example_name=project["project_name"])
             dict_lit = json.loads(wstrs)
             bsp_test_dict[project_name] = dict_lit
         return bsp_test_dict
