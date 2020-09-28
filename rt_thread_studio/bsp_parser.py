@@ -112,7 +112,7 @@ class BspParser(object):
                                              project_type=str(project['project_type']),
                                              project_name=str(project_name),
                                              output_project_path=str(output_project_path),
-                                             from_example=False,
+                                             from_example="false",
                                              example_name="")
             dict_lit = json.loads(wstrs)
             bsp_test_dict[project_name] = dict_lit
@@ -126,7 +126,7 @@ class BspParser(object):
                                              project_type=str(project['project_type']),
                                              project_name=str(project_name),
                                              output_project_path=str(output_project_path),
-                                             from_example=True,
+                                             from_example="true",
                                              example_name=project["project_name"])
             dict_lit = json.loads(wstrs)
             bsp_test_dict[project_name] = dict_lit
