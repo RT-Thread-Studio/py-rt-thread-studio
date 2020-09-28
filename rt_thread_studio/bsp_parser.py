@@ -99,7 +99,7 @@ class BspParser(object):
 		"bsp_path": "$bsp_path",
 		"project_name": "$project_name",
 		"output_project_path": "$output_project_path",
-		"from_example": "$from_example",
+		"from_example": $from_example,
 		"example_name": "$example_name",
 		"project_type": "$project_type",
 		"action": "create_project"
