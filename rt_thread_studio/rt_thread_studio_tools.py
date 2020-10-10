@@ -16,7 +16,7 @@ def cli():
     help="specify the package type",
 )
 def create(type):
-    """: a command to creat a package"""
+    """: a command to create a package"""
     # TODO :add project update feature
     if str(type).lower().strip()=="bsp":
         gen=Generator()

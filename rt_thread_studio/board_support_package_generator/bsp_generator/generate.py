@@ -48,6 +48,9 @@ class Generator(object):
                 is_use_external_rtt_code = True
         else:
             is_use_external_rtt_code = False
+            self.project_type = "bare-metal"
+            self.project_sub_type = "notUsed"
+            self.rtt_version = "notUsed"
         if is_use_external_rtt_code:
             rtt_package = input("""Step 4: 请选择该工程使用的 rt-thread 版本 [0/1/2]:
         rt-thread 4.0.2  ------------------- 0
@@ -55,10 +58,15 @@ class Generator(object):
         rt-thread nano   ------------------- 2
 >""")
             if rtt_package == "0":
+                self.project_type = "rt-thread"
+                self.project_sub_type = "full"
                 self.rtt_version = "4.0.2"
             elif rtt_package == "1":
+                self.project_type = "rt-thread"
+                self.project_sub_type = "full"
                 self.rtt_version = "latest"
             elif rtt_package == "0":
+                self.project_type = "rt-thread"
                 self.rtt_version = "nano-v3.1.3"
                 self.project_sub_type = "nano"
         else:
@@ -78,17 +86,17 @@ class Generator(object):
         builtin_files1.target_path_offset = ""
         builtin_files1.files_and_folders.extend(os.listdir(project_root_path))
         project1.builtin_files.append(builtin_files1.dump())
+        project1.project_type= self.project_type+"|@"+self.project_sub_type+"|@"+self.rtt_version
         if is_use_external_rtt_code:
             print(project_root_path)
-            filelist = os.listdir(project_root_path)
-            filelist.remove("rt-thread")
-            print(filelist)
+            builtin_files1.files_and_folders.remove("rt-thread")
+            print(builtin_files1.files_and_folders)
         else:
-            filelist = os.listdir(project_root_path)
+            pass
 
-        if ".git" in filelist:
-            filelist.remove(".git")
-        Generator.cp_fr_list(filelist, Path(project_root_path),
+        if ".git" in builtin_files1.files_and_folders:
+            builtin_files1.files_and_folders.remove(".git")
+        Generator.cp_fr_list(builtin_files1.files_and_folders, Path(project_root_path),
                              bsp_root_path.joinpath(builtin_files1.source_path_offset))
         if is_use_external_rtt_code:
             external_files2 = external_files.ExternalFiles()
@@ -96,7 +104,10 @@ class Generator(object):
             external_files2.package_name = "RT-Thread"
             external_files2.package_vendor = ""
             external_files2.package_version = self.rtt_version
-            external_files2.source_path_offset = ""
+            if self.rtt_version == "latest":
+                external_files2.source_path_offset = "rt-thread"
+            else:
+                external_files2.source_path_offset = ""
             external_files2.target_path_offset = "rt-thread"
             external_files2.files_and_folders = ["components",
                                                  "include",
@@ -112,21 +123,21 @@ class Generator(object):
         new_bsp_descriptor.template_projects.append(project1.dump())
 
         pkg_vendor = input("Step 5: 请输入您的公司名称，如果希望使用默认值（RealThread），请直接点击 Enter 键。\n>")
-        if bsp_location.strip() == '':
+        if pkg_vendor.strip() == '':
             pkg_vendor = "RealThead"
         else:
             pkg_vendor = pkg_vendor.strip()
         new_bsp_descriptor.pkg_vendor = pkg_vendor
 
         board_name = input("Step 6: 请输入开发板的名称，如果希望使用默认值（STM32L475-ATK-PANDORA），请直接点击 Enter 键。\n>")
-        if bsp_location.strip() == '':
+        if board_name.strip() == '':
             board_name = "STM32L475-ATK-PANDORA"
         else:
             board_name = board_name.strip()
         new_bsp_descriptor.board.name = board_name
 
         dvendor = input("Step 7: 请输入板载 MCU 的厂商名称，如果希望使用默认值（STMicroelectronics），请直接点击 Enter 键。\n>")
-        if bsp_location.strip() == '':
+        if dvendor.strip() == '':
             dvendor = "STMicroelectronics"
         else:
             dvendor = dvendor.strip()
@@ -222,3 +233,4 @@ class Generator(object):
 if __name__ == '__main__':
     generator1 = Generator()
     generator1.generate_bsp()
+

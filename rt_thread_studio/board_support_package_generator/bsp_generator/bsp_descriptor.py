@@ -46,10 +46,12 @@ class BspDescriptor(object):
         pack_dict["pkg_version"] = self.pkg_version
         pack_dict["yaml_version"] = self.yaml_version
         pack_dict["features"] = self.features
+        pack_dict["features_zh"] = self.features
         pack_dict["docs"] = self.docs
         pack_dict["board"] = self.board.dump()
         pack_dict["chip"] = self.chip.dump()
         pack_dict["template_projects"] = self.template_projects
         pack_dict["example_projects"] = self.example_projects
         with open(file, mode='w', encoding='utf-8') as f:
-            yaml.dump(pack_dict, f, default_flow_style=False, allow_unicode=True)
+            yaml.Dumper.ignore_aliases = lambda *args : True
+            yaml.dump(pack_dict, f, allow_unicode=True,default_flow_style=False)

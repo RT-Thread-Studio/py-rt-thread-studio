@@ -1,5 +1,5 @@
 ---
-yaml_version: 2
+yaml_version: 3
 pkg_version: 1.0.0
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
@@ -65,7 +65,7 @@ features_zh:
 - 马达:TC214B
 - 接口:ATK module
 - 例程:36 bare-metal demos and 30 RT-Thread demos
-default_projects:
+template_projects:
 - project_name: empty
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.0.2
