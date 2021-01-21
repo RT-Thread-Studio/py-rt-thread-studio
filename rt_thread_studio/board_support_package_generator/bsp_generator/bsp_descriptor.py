@@ -46,7 +46,7 @@ class BspDescriptor(object):
         pack_dict["pkg_version"] = self.pkg_version
         pack_dict["yaml_version"] = self.yaml_version
         pack_dict["features"] = self.features
-        pack_dict["features_zh"] = self.features
+        pack_dict["features_zh"] = self.features_zh
         pack_dict["docs"] = self.docs
         pack_dict["board"] = self.board.dump()
         pack_dict["chip"] = self.chip.dump()
