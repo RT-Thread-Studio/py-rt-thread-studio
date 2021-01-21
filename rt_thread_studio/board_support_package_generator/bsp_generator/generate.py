@@ -271,6 +271,10 @@ class Generator(object):
         new_bsp_descriptor.board.description_en = board_dict["description_en"]
         new_bsp_descriptor.board.price_cn = board_dict["price_cn"]
         new_bsp_descriptor.board.price_global = board_dict["price_global"]
+        new_bsp_descriptor.board.sale_contact_cn = board_dict["sale_contact_cn"]
+        new_bsp_descriptor.board.sale_contact_global = board_dict["sale_contact_global"]
+        new_bsp_descriptor.board.buy_url_cn = board_dict["buy_url_cn"]
+        new_bsp_descriptor.board.buy_url_global = board_dict["buy_url_global"]
         new_bsp_descriptor.board.debugger = board_dict["debugger"]
         new_bsp_descriptor.board.debug_interface = board_dict["debug_interface"]
 
