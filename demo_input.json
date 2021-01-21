@@ -1,0 +1,90 @@
+{
+    "board_support_package_location": "C:/Users/yaxing.chen/Documents",
+    "yaml_version": 3,
+    "pkg_version": "8.8.8",
+    "pkg_vendor": "dh",
+    "pkg_type": "Board_Support_Packages",
+    "board": {
+        "name": "jjj",
+        "version": "",
+        "vendor": "realthread_board",
+        "description_zh": "",
+        "description_en": "",
+        "small_image": "C:\\Users\\yaxing.chen\\Pictures\\123.png",
+        "large_image": "C:\\Users\\yaxing.chen\\Pictures\\f429.png",
+        "sale_contact_cn": "",
+        "sale_contact_global": "",
+        "buy_url_cn": "",
+        "buy_url_global": "",
+        "price_cn": "",
+        "price_global": "",
+        "debugger": "J-Link",
+        "debug_interface": "SWD",
+        "emulator_machine": ""
+    },
+    "chip": {
+        "device_vendor": "ST",
+        "family_name": "STM32",
+        "series_name": "STM32F1",
+        "sub_series_name": "STM32F103",
+        "chip_name": "STM32F103ZE",
+        "rx_name": "PI9",
+        "tx_name": "PA0",
+        "clock_source": "HSE",
+        "source_freq": "25000000",
+        "target_freq": "480000000",
+        "uart_name": "UART4"
+    },
+    "docs": [
+        {
+            "file": "C:/Users/yaxing.chen/Documents/123.ioc",
+            "title": "12312312321312",
+            "category": "manual"
+        },
+        {
+            "file": "C:/Users/yaxing.chen/Documents/platformio 后端服务部署方案.md",
+            "title": "123dad12",
+            "category": "sheet"
+        }
+    ],
+    "features": [
+        "www",
+        "iii"
+    ],
+    "features_zh": [
+        "谁是谁",
+        "iii"
+    ],
+    "template_projects": [
+        {
+            "project_name": "lll",
+            "project_description": "kl;",
+            "project_type": "rt-thread|@full|@4.0.2",
+            "project_path": "D:\\RT-ThreadStudio2000\\workspace\\bpill2",
+            "is_remove_rtt_source_in_project": "true"
+        },
+        {
+            "project_name": "10330",
+            "project_description": "kl2;",
+            "project_type": "rt-thread|@full|@4.0.3",
+            "project_path": "D:\\RT-ThreadStudio2000\\workspace\\10330",
+            "is_remove_rtt_source_in_project": "false"
+        }
+    ],
+    "example_projects": [
+                {
+            "project_name": "lll",
+            "project_description": "kl;",
+            "project_type": "rt-thread|@full|@4.0.2",
+            "project_path": "D:\\RT-ThreadStudio2000\\workspace\\bpill2",
+            "is_remove_rtt_source_in_project": "true"
+        },
+        {
+            "project_name": "10330",
+            "project_description": "kl2;",
+            "project_type": "rt-thread|@full|@4.0.3",
+            "project_path": "D:\\RT-ThreadStudio2000\\workspace\\10330",
+            "is_remove_rtt_source_in_project": "false"
+        }
+    ]
+}
