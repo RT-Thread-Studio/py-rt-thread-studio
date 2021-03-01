@@ -1,4 +1,4 @@
----
+TEMP_TAML_STR = """---
 yaml_version: 3
 pkg_version: 1.0.0
 pkg_vendor: RealThread
@@ -241,3 +241,4 @@ template_projects:
     - Kconfig
     - LICENSE
 example_projects: []
+"""

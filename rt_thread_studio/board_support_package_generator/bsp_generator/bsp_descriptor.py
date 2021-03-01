@@ -20,10 +20,9 @@ class BspDescriptor(object):
         self.template_projects = []
         self.example_projects = []
 
-    def load(self, template_file_path):
-        with open(template_file_path, mode='r', encoding="utf-8") as f:
-            data = f.read()
-        pack_dict = yaml.load(data, Loader=yaml.FullLoader)
+    def load(self, yaml_strs):
+
+        pack_dict = yaml.load(yaml_strs, Loader=yaml.FullLoader)
 
         self.pkg_type = pack_dict["pkg_type"]
         self.pkg_vendor = pack_dict["pkg_vendor"]

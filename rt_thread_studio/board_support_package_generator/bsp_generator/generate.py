@@ -1,6 +1,7 @@
 import os
 import pathlib
 import shutil
+import sys
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog
@@ -9,6 +10,7 @@ from . import bsp_descriptor
 from . import builtin_files
 from . import external_files
 from . import project
+from .temp_yaml import TEMP_TAML_STR
 
 
 class Generator(object):
@@ -20,6 +22,15 @@ class Generator(object):
         self.project_type = "rt-thread"
         self.project_sub_type = "full"
         self.rtt_version = None
+
+    @staticmethod
+    def get_current_path():
+        dir_path = ""
+        if getattr(sys, 'frozen', False):
+            dir_path = os.path.dirname(sys.executable)
+        elif __file__:
+            dir_path = os.path.dirname(__file__)
+        return dir_path
 
     def generate_bsp(self):
         bsp_name = input("Step 0: 请输入开发板支持包名称:\n>")
@@ -73,10 +84,9 @@ class Generator(object):
                 self.project_sub_type = "nano"
         else:
             print("Step 4: 跳过.\n")
-        temp_yaml = pathlib.Path(__file__).parent.parent / 'template/temp.yaml'
         Generator.cp_fr_list(["debug", "documents"], pathlib.Path(__file__).parent.parent / 'template',
                              bsp_root_path)
-        new_bsp_descriptor.load(temp_yaml)
+        new_bsp_descriptor.load(TEMP_TAML_STR)
         new_bsp_descriptor.template_projects.clear()
         new_bsp_descriptor.example_projects.clear()
 
@@ -247,16 +257,12 @@ class Generator(object):
         small_image_file_path = Path(board_dict["small_image"])
         large_image_file_path = Path(board_dict["large_image"])
 
-        print(small_image_file_path)
-        print(large_image_file_path)
-
         bsp_name = "sdk-bsp-{0}-{1}-{2}".format(chip_dict["chip_name"].lower(), board_dict["vendor"].lower(),
                                                 board_dict["name"].lower())
         bsp_location = Path(json_dict["board_support_package_location"])
         bsp_root_path = Path(bsp_location).joinpath(bsp_name)
         new_bsp_descriptor = bsp_descriptor.BspDescriptor()
-        temp_yaml = pathlib.Path(__file__).parent.parent / 'template/temp.yaml'
-        new_bsp_descriptor.load(temp_yaml)
+        new_bsp_descriptor.load(TEMP_TAML_STR)
         new_bsp_descriptor.template_projects.clear()
         new_bsp_descriptor.example_projects.clear()
         new_bsp_descriptor.pkg_vendor = json_dict["pkg_vendor"]
@@ -330,8 +336,15 @@ class Generator(object):
                     pass
                 if ".git" in builtin_f_r.files_and_folders:
                     builtin_f_r.files_and_folders.remove(".git")
+                if "Debug" in builtin_f_r.files_and_folders:
+                    builtin_f_r.files_and_folders.remove("Debug")
+                if "rtconfig.pyc" in builtin_f_r.files_and_folders:
+                    builtin_f_r.files_and_folders.remove("rtconfig.pyc")
+                if "build" in builtin_f_r.files_and_folders:
+                    builtin_f_r.files_and_folders.remove("build")
                 if ".sconsign.dblite" in builtin_f_r.files_and_folders:
                     builtin_f_r.files_and_folders.remove(".sconsign.dblite")
+
                 Generator.cp_fr_list(builtin_f_r.files_and_folders, Path(project_root_path),
                                      bsp_root_path.joinpath(builtin_f_r.source_path_offset))
                 if is_use_external_rtt_code:

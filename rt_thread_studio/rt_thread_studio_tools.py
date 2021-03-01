@@ -39,7 +39,6 @@ def create(type):
 def create_bsp_from_json(json):
     """: a command to create a package"""
     # TODO :add project update feature
-    print(json)
     generator1 = Generator()
     generator1.generate_bsp_from_json(json)
 
