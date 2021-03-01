@@ -257,8 +257,7 @@ class Generator(object):
         small_image_file_path = Path(board_dict["small_image"])
         large_image_file_path = Path(board_dict["large_image"])
 
-        bsp_name = "sdk-bsp-{0}-{1}-{2}".format(chip_dict["chip_name"].lower(), board_dict["vendor"].lower(),
-                                                board_dict["name"].lower())
+        bsp_name = "sdk-bsp-{0}".format(board_dict["name"].lower().replace(" ", ""))
         bsp_location = Path(json_dict["board_support_package_location"])
         bsp_root_path = Path(bsp_location).joinpath(bsp_name)
         new_bsp_descriptor = bsp_descriptor.BspDescriptor()
